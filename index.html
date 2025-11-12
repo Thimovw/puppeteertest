@@ -129,8 +129,11 @@
         // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
         // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
         setTimeout(() => {
-            fetch('_d.json')
-                .then(response => response.json())
+            fetch('data-config.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
                 .then(data => {
                     const apiData = data.compliance;
                     document.getElementById('api-data').innerHTML = `
@@ -145,7 +148,8 @@
                         </ul>
                     `;
                 })
-                .catch(() => {
+                .catch(err => {
+                    console.error('Error loading data:', err);
                     document.getElementById('api-data').innerHTML = `
                         <p><strong>⚠️ API Data kon niet worden opgehaald</strong></p>
                     `;
@@ -156,8 +160,11 @@
         // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
         // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
         setTimeout(() => {
-            fetch('_d.json')
-                .then(response => response.json())
+            fetch('data-config.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
                 .then(data => {
                     const certificates = data.delayed.certificates;
                     document.getElementById('delayed-content').innerHTML = `
@@ -166,7 +173,8 @@
                         ${certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
                     `;
                 })
-                .catch(() => {
+                .catch(err => {
+                    console.error('Error loading data:', err);
                     document.getElementById('delayed-content').innerHTML = `
                         <p><strong>⚠️ Content kon niet worden geladen</strong></p>
                     `;
