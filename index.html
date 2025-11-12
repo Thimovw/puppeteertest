@@ -151,13 +151,24 @@
         }, 1000);
 
         // Vertraagde content (test timeout handling)
+        // Certificeringen worden via API call opgehaald, niet in HTML/JS broncode
         setTimeout(() => {
-            document.getElementById('delayed-content').innerHTML = `
-                <p><strong>✅ Vertraagde content geladen!</strong></p>
-                <p>Deze content verschijnt na 2 seconden. Als Puppeteer dit ziet, wacht het correct op network idle.</p>
-                <div class="badge">ISO 9001</div>
-                <div class="badge">CSA STAR</div>
-            `;
+            fetch('/api/certificates')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.certificates) {
+                        document.getElementById('delayed-content').innerHTML = `
+                            <p><strong>✅ Vertraagde content geladen!</strong></p>
+                            <p>Deze content verschijnt na 2 seconden. Als Puppeteer dit ziet, wacht het correct op network idle.</p>
+                            ${data.certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
+                        `;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('delayed-content').innerHTML = `
+                        <p><strong>⚠️ Content kon niet worden geladen</strong></p>
+                    `;
+                });
         }, 2000);
 
         // Log naar console (captureConsole test)

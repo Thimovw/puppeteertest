@@ -18,6 +18,21 @@ const server = http.createServer((req, res) => {
     let filePath = req.url.split('?')[0];
     filePath = decodeURIComponent(filePath);
 
+    // API endpoint voor certificeringen (niet in HTML/JS broncode)
+    if (filePath === '/api/certificates') {
+        // Simuleer een kleine delay zoals een echte API
+        setTimeout(() => {
+            res.writeHead(200, { 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
+            res.end(JSON.stringify({
+                certificates: ['ISO 9001', 'CSA STAR']
+            }));
+        }, 300);
+        return;
+    }
+
     // Default to index.html
     if (filePath === '/') {
         filePath = '/index.html';
