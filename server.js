@@ -33,6 +33,24 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API endpoint voor compliance data (ISO 27001 niet in HTML/JS broncode)
+    if (filePath === '/api/compliance-data') {
+        // Simuleer een kleine delay zoals een echte API
+        setTimeout(() => {
+            res.writeHead(200, { 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
+            res.end(JSON.stringify({
+                certificates: ['ISO 27001', 'SOC 2', 'GDPR', 'PCI DSS'],
+                complianceScore: 95,
+                lastAudit: '2025-01-15',
+                securityFeatures: ['2FA', 'Encryption at Rest', 'Regular Pen Tests']
+            }));
+        }, 400);
+        return;
+    }
+
     // Default to index.html
     if (filePath === '/') {
         filePath = '/index.html';
