@@ -126,14 +126,16 @@
             `;
         }, 500);
 
-        // Simuleer API call met fetch - data komt van server, niet uit HTML/JS
+        // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
+        // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
         setTimeout(() => {
-            fetch('/api/compliance-data')
+            fetch('_d.json')
                 .then(response => response.json())
-                .then(apiData => {
+                .then(data => {
+                    const apiData = data.compliance;
                     document.getElementById('api-data').innerHTML = `
                         <p><strong>✅ API Data succesvol opgehaald!</strong></p>
-                        <p>Compliance Score: <strong>${apiData.complianceScore}%</strong></p>
+                        <p>Compliance Score: <strong>${apiData.score}%</strong></p>
                         <p>Laatste Audit: ${apiData.lastAudit}</p>
                         <p>Certificeringen:</p>
                         ${apiData.certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
@@ -151,18 +153,18 @@
         }, 1000);
 
         // Vertraagde content (test timeout handling)
-        // Certificeringen worden via API call opgehaald, niet in HTML/JS broncode
+        // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
+        // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
         setTimeout(() => {
-            fetch('/api/certificates')
+            fetch('_d.json')
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.certificates) {
-                        document.getElementById('delayed-content').innerHTML = `
-                            <p><strong>✅ Vertraagde content geladen!</strong></p>
-                            <p>Deze content verschijnt na 2 seconden. Als Puppeteer dit ziet, wacht het correct op network idle.</p>
-                            ${data.certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
-                        `;
-                    }
+                    const certificates = data.delayed.certificates;
+                    document.getElementById('delayed-content').innerHTML = `
+                        <p><strong>✅ Vertraagde content geladen!</strong></p>
+                        <p>Deze content verschijnt na 2 seconden. Als Puppeteer dit ziet, wacht het correct op network idle.</p>
+                        ${certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
+                    `;
                 })
                 .catch(() => {
                     document.getElementById('delayed-content').innerHTML = `

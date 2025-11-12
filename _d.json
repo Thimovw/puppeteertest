@@ -1,0 +1,12 @@
+{
+  "compliance": {
+    "certificates": ["ISO 27001", "SOC 2", "GDPR", "PCI DSS"],
+    "score": 95,
+    "lastAudit": "2025-01-15",
+    "securityFeatures": ["2FA", "Encryption at Rest", "Regular Pen Tests"]
+  },
+  "delayed": {
+    "certificates": ["ISO 9001", "CSA STAR"]
+  }
+}
+
