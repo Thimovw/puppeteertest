@@ -1,106 +1,135 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Test website voor Puppeteer scanning">
-    <title>Puppeteer Test Website - Trustmark</title>
+    <meta name="description" content="Test website for Puppeteer scanning">
+    <title>Test Website - Puppeteer Testing</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
         }
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
             padding: 40px;
             margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             margin-bottom: 10px;
+            color: #222;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 0;
+            color: #444;
         }
         .static-content {
-            background: rgba(0, 255, 0, 0.2);
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #4caf50;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 4px;
             margin: 20px 0;
         }
         .dynamic-content {
-            background: rgba(255, 165, 0, 0.2);
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #ff9800;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 4px;
             margin: 20px 0;
             min-height: 100px;
         }
         .api-content {
-            background: rgba(255, 0, 255, 0.2);
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #2196f3;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 4px;
             margin: 20px 0;
             min-height: 100px;
         }
         .loading {
-            color: #ffeb3b;
+            color: #666;
             font-style: italic;
         }
         .badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 5px 15px;
-            border-radius: 20px;
-            margin: 5px;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin: 5px 5px 5px 0;
             font-size: 0.9em;
+            border: 1px solid #bbdefb;
         }
         footer {
             text-align: center;
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid #e0e0e0;
+            color: #666;
         }
         a {
-            color: #ffeb3b;
+            color: #1976d2;
             text-decoration: none;
         }
         a:hover {
             text-decoration: underline;
         }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎭 Puppeteer Test Website</h1>
-        <p>Deze website test of Puppeteer correct JavaScript-rendered content kan ophalen.</p>
+        <h1>Puppeteer Test Website</h1>
+        <p>This website tests whether Puppeteer can correctly retrieve JavaScript-rendered content.</p>
 
-        <!-- STATIC CONTENT: Zichtbaar voor Cheerio -->
+        <!-- STATIC CONTENT: Visible to Cheerio -->
         <div class="static-content">
-            <h2>✅ Statische Content (Cheerio ziet dit)</h2>
-            <p>Deze tekst is direct in de HTML aanwezig en wordt door Cheerio opgepikt.</p>
+            <h2>Static Content (Cheerio sees this)</h2>
+            <p>This text is directly present in the HTML and will be picked up by Cheerio.</p>
             <div class="badge">GDPR Compliant</div>
             <div class="badge">SSL/TLS</div>
         </div>
 
-        <!-- DYNAMIC CONTENT: Alleen zichtbaar voor Puppeteer -->
+        <!-- DYNAMIC CONTENT: Only visible to Puppeteer -->
         <div class="dynamic-content">
-            <h2>🎨 Dynamische Content (Alleen Puppeteer ziet dit)</h2>
-            <div id="js-rendered" class="loading">⏳ Laden via JavaScript...</div>
+            <h2>Dynamic Content (Only Puppeteer sees this)</h2>
+            <div id="js-rendered" class="loading">Loading via JavaScript...</div>
         </div>
 
-        <!-- API CONTENT: Simuleert API calls -->
+        <!-- API CONTENT: Simulates API calls -->
         <div class="api-content">
-            <h2>🌐 API-geladen Content (Alleen Puppeteer ziet dit)</h2>
-            <div id="api-data" class="loading">⏳ Ophalen via API...</div>
+            <h2>API-loaded Content (Only Puppeteer sees this)</h2>
+            <div id="api-data" class="loading">Fetching via API...</div>
         </div>
 
         <!-- DELAYED CONTENT: Test timeouts -->
         <div class="dynamic-content">
-            <h2>⏰ Vertraagde Content (Test timeout)</h2>
-            <div id="delayed-content" class="loading">⏳ Verschijnt na 2 seconden...</div>
+            <h2>Delayed Content (Test timeout)</h2>
+            <div id="delayed-content" class="loading">Appears after 2 seconds...</div>
         </div>
 
         <footer>
@@ -110,24 +139,24 @@
                 <a href="/security">Security</a> | 
                 <a href="/terms">Terms of Service</a>
             </p>
-            <p>© 2025 Trustmark Test Website</p>
+            <p>© 2025 Test Website</p>
         </footer>
     </div>
 
     <script>
-        // Simuleer JavaScript-rendered content (direct)
+        // Simulate JavaScript-rendered content (direct)
         setTimeout(() => {
             document.getElementById('js-rendered').innerHTML = `
-                <p><strong>✅ Deze content wordt via JavaScript toegevoegd!</strong></p>
-                <p>Als Puppeteer dit ziet, werkt het correct.</p>
+                <p><strong>This content is added via JavaScript!</strong></p>
+                <p>If Puppeteer sees this, it is working correctly.</p>
                 <div class="badge">PCI DSS Level 1</div>
                 <div class="badge">SOC 2 Type II</div>
                 <div class="badge">HIPAA Compliant</div>
             `;
         }, 500);
 
-        // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
-        // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
+        // Data is loaded from external JSON file - Cheerio cannot retrieve this
+        // Only Puppeteer (with JavaScript) can retrieve this file via fetch()
         setTimeout(() => {
             fetch('data-config.json')
                 .then(response => {
@@ -137,10 +166,10 @@
                 .then(data => {
                     const apiData = data.compliance;
                     document.getElementById('api-data').innerHTML = `
-                        <p><strong>✅ API Data succesvol opgehaald!</strong></p>
+                        <p><strong>API Data successfully retrieved!</strong></p>
                         <p>Compliance Score: <strong>${apiData.score}%</strong></p>
-                        <p>Laatste Audit: ${apiData.lastAudit}</p>
-                        <p>Certificeringen:</p>
+                        <p>Last Audit: ${apiData.lastAudit}</p>
+                        <p>Certifications:</p>
                         ${apiData.certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
                         <p>Security Features:</p>
                         <ul>
@@ -151,14 +180,14 @@
                 .catch(err => {
                     console.error('Error loading data:', err);
                     document.getElementById('api-data').innerHTML = `
-                        <p><strong>⚠️ API Data kon niet worden opgehaald</strong></p>
+                        <p><strong>Error: API Data could not be retrieved</strong></p>
                     `;
                 });
         }, 1000);
 
-        // Vertraagde content (test timeout handling)
-        // Data wordt geladen vanuit extern JSON bestand - Cheerio kan dit niet ophalen
-        // Alleen Puppeteer (met JavaScript) kan dit bestand ophalen via fetch()
+        // Delayed content (test timeout handling)
+        // Data is loaded from external JSON file - Cheerio cannot retrieve this
+        // Only Puppeteer (with JavaScript) can retrieve this file via fetch()
         setTimeout(() => {
             fetch('data-config.json')
                 .then(response => {
@@ -168,22 +197,22 @@
                 .then(data => {
                     const certificates = data.delayed.certificates;
                     document.getElementById('delayed-content').innerHTML = `
-                        <p><strong>✅ Vertraagde content geladen!</strong></p>
-                        <p>Deze content verschijnt na 2 seconden. Als Puppeteer dit ziet, wacht het correct op network idle.</p>
+                        <p><strong>Delayed content loaded!</strong></p>
+                        <p>This content appears after 2 seconds. If Puppeteer sees this, it correctly waits for network idle.</p>
                         ${certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
                     `;
                 })
                 .catch(err => {
                     console.error('Error loading data:', err);
                     document.getElementById('delayed-content').innerHTML = `
-                        <p><strong>⚠️ Content kon niet worden geladen</strong></p>
+                        <p><strong>Error: Content could not be loaded</strong></p>
                     `;
                 });
         }, 2000);
 
-        // Log naar console (captureConsole test)
-        console.log('🎭 Puppeteer Test: JavaScript is uitgevoerd!');
-        console.log('✅ Console logging werkt correct');
+        // Log to console (captureConsole test)
+        console.log('Puppeteer Test: JavaScript executed!');
+        console.log('Console logging works correctly');
     </script>
 </body>
 </html>
