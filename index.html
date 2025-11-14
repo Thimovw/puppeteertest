@@ -170,7 +170,7 @@
                         <p>Compliance Score: <strong>${apiData.score}%</strong></p>
                         <p>Last Audit: ${apiData.lastAudit}</p>
                         <p>Certifications:</p>
-                        ${apiData.certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
+                        ${apiData.certificates.map(cert => `<div class="badge">${cert} Certified</div>`).join('')}
                         <p>Security Features:</p>
                         <ul>
                             ${apiData.securityFeatures.map(feature => `<li>${feature}</li>`).join('')}
@@ -199,7 +199,7 @@
                     document.getElementById('delayed-content').innerHTML = `
                         <p><strong>Delayed content loaded!</strong></p>
                         <p>This content appears after 2 seconds. If Puppeteer sees this, it correctly waits for network idle.</p>
-                        ${certificates.map(cert => `<div class="badge">${cert}</div>`).join('')}
+                        ${certificates.map(cert => `<div class="badge">${cert} Certified</div>`).join('')}
                     `;
                 })
                 .catch(err => {
