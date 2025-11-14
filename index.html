@@ -180,7 +180,7 @@
                     const apiData = data.compliance;
                     const certHtml = apiData.certificates.map(cert => {
                         if (cert === 'ISO 27001') {
-                            return `<div class="cert-image"><img src="iso27001.png" alt="ISO 27001 Certified" title="ISO 27001 Certified"></div>`;
+                            return `<div class="cert-image"><img src="iso27001.png" alt="ISO 27001 Certified" title="ISO 27001 Certified" loading="eager"></div>`;
                         } else {
                             return `<div class="badge">${cert} Certified</div>`;
                         }
@@ -196,6 +196,16 @@
                             ${apiData.securityFeatures.map(feature => `<li>${feature}</li>`).join('')}
                         </ul>
                     `;
+                    // Ensure image loads - this helps Puppeteer detect it
+                    const isoImage = document.querySelector('.cert-image img');
+                    if (isoImage) {
+                        isoImage.onload = () => {
+                            console.log('ISO 27001 image loaded successfully');
+                        };
+                        isoImage.onerror = () => {
+                            console.error('ISO 27001 image failed to load');
+                        };
+                    }
                 })
                 .catch(err => {
                     console.error('Error loading data:', err);
