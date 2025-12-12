@@ -157,27 +157,27 @@
 
     <script>
         // Certificates via Base64 encoding - Cheerio ziet dit niet als certificaatnamen
-        var c1 = atob('SVNPIDI3MDAx'); // ISO 27001
-        var c3 = atob('U09DMiBUeXBlIElJ'); // SOC 2 Type II
+        // Format: "certified ISO 27001" etc. zodat de detectie het herkent
+        var c1 = atob('Y2VydGlmaWVkIElTTyAyNzAwMQ=='); // certified ISO 27001
+        var c2 = atob('UENJIERTU0NvbXBsaWFudA=='); // PCI DSS Compliant
         
         setTimeout(function() {
             document.getElementById('js-rendered').innerHTML = 
                 '<p><strong>Dynamic certificates loaded!</strong></p>' +
                 '<div class="badge">' + c1 + '</div>' +
-                '<div class="badge">' + c3 + '</div>';
+                '<div class="badge">' + c2 + '</div>';
         }, 500);
 
         setTimeout(function() {
             document.getElementById('api-data').innerHTML = 
                 '<p><strong>Additional certifications:</strong></p>' +
-                '<div class="badge">' + atob('SElQQUE=') + '</div>' +
-                '<div class="badge">' + atob('Q1NBIFNUQVI=') + '</div>';
+                '<div class="badge">' + atob('VGh1aXN3aW5rZWwgV2FhcmJvcmc=') + '</div>';
         }, 1000);
 
         setTimeout(function() {
             document.getElementById('delayed-content').innerHTML = 
                 '<p><strong>Delayed content loaded!</strong></p>' +
-                '<div class="badge">' + atob('SVNPIDkwMDE=') + '</div>';
+                '<div class="badge">' + atob('Y2VydGlmaWVkIElTTyA5MDAx') + '</div>';
         }, 2000);
     </script>
 </body>
