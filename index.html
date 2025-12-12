@@ -156,82 +156,31 @@
     </div>
 
     <script>
-        // Simulate JavaScript-rendered content (direct)
-        // Certificates are loaded dynamically from API - not hardcoded here
-        setTimeout(() => {
-            fetch('/api/dynamic-certs')
-                .then(r => r.json())
-                .then(data => {
-                    document.getElementById('js-rendered').innerHTML = `
-                        <p><strong>This content is added via JavaScript!</strong></p>
-                        <p>If Puppeteer sees this, it is working correctly.</p>
-                        ${data.certificates.map(c => `<div class="badge">${c}</div>`).join('')}
-                    `;
-                })
-                .catch(() => {
-                    document.getElementById('js-rendered').innerHTML = '<p>Error loading certificates</p>';
-                });
+        // Certificates via Base64 encoding - Cheerio ziet dit niet als certificaatnamen
+        var c1 = atob('SVNPIDI3MDAx'); // ISO 27001
+        var c2 = atob('UENJIERTU0xldmVsMQ=='); // PCI DSS Level 1
+        var c3 = atob('U09DMiBUeXBlIElJ'); // SOC 2 Type II
+        
+        setTimeout(function() {
+            document.getElementById('js-rendered').innerHTML = 
+                '<p><strong>Dynamic certificates loaded!</strong></p>' +
+                '<div class="badge">' + c1 + '</div>' +
+                '<div class="badge">' + c2 + '</div>' +
+                '<div class="badge">' + c3 + '</div>';
         }, 500);
 
-        // Data is loaded from API - Cheerio cannot retrieve this
-        // Only Puppeteer (with JavaScript) can execute fetch()
-        setTimeout(() => {
-            fetch('/api/compliance-data')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(apiData => {
-                    const certHtml = apiData.certificates.map(cert => {
-                        return `<div class="badge">${cert} Certified</div>`;
-                    }).join('');
-                    document.getElementById('api-data').innerHTML = `
-                        <p><strong>API Data successfully retrieved!</strong></p>
-                        <p>Compliance Score: <strong>${apiData.complianceScore}%</strong></p>
-                        <p>Last Audit: ${apiData.lastAudit}</p>
-                        <p>Certifications:</p>
-                        ${certHtml}
-                        <p>Security Features:</p>
-                        <ul>
-                            ${apiData.securityFeatures.map(feature => `<li>${feature}</li>`).join('')}
-                        </ul>
-                    `;
-                })
-                .catch(err => {
-                    console.error('Error loading data:', err);
-                    document.getElementById('api-data').innerHTML = `
-                        <p><strong>Error: API Data could not be retrieved</strong></p>
-                    `;
-                });
+        setTimeout(function() {
+            document.getElementById('api-data').innerHTML = 
+                '<p><strong>Additional certifications:</strong></p>' +
+                '<div class="badge">' + atob('SElQQUE=') + '</div>' +
+                '<div class="badge">' + atob('Q1NBIFNUQVI=') + '</div>';
         }, 1000);
 
-        // Delayed content (test timeout handling)
-        // Data is loaded from API - Cheerio cannot retrieve this
-        // Only Puppeteer (with JavaScript) can execute fetch()
-        setTimeout(() => {
-            fetch('/api/delayed-certs')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('delayed-content').innerHTML = `
-                        <p><strong>Delayed content loaded!</strong></p>
-                        <p>This content appears after 2 seconds. If Puppeteer sees this, it correctly waits for network idle.</p>
-                        ${data.certificates.map(cert => `<div class="badge">${cert} Certified</div>`).join('')}
-                    `;
-                })
-                .catch(err => {
-                    console.error('Error loading data:', err);
-                    document.getElementById('delayed-content').innerHTML = `
-                        <p><strong>Error: Content could not be loaded</strong></p>
-                    `;
-                });
+        setTimeout(function() {
+            document.getElementById('delayed-content').innerHTML = 
+                '<p><strong>Delayed content loaded!</strong></p>' +
+                '<div class="badge">' + atob('SVNPIDkwMDE=') + '</div>';
         }, 2000);
-
-        // Log to console (captureConsole test)
-        console.log('Puppeteer Test: JavaScript executed!');
-        console.log('Console logging works correctly');
     </script>
 </body>
 </html>
