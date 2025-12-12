@@ -24,9 +24,22 @@ const server = http.createServer((req, res) => {
     let filePath = req.url.split('?')[0];
     filePath = decodeURIComponent(filePath);
 
-    // API endpoint voor certificeringen (niet in HTML/JS broncode)
-    if (filePath === '/api/certificates') {
-        // Simuleer een kleine delay zoals een echte API
+    // API endpoint voor dynamic certificates (alleen Puppeteer kan dit ophalen)
+    if (filePath === '/api/dynamic-certs') {
+        setTimeout(() => {
+            res.writeHead(200, { 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
+            res.end(JSON.stringify({
+                certificates: ['PCI DSS Level 1', 'SOC 2 Type II', 'HIPAA Compliant']
+            }));
+        }, 200);
+        return;
+    }
+
+    // API endpoint voor delayed certificates (alleen Puppeteer kan dit ophalen)
+    if (filePath === '/api/delayed-certs') {
         setTimeout(() => {
             res.writeHead(200, { 
                 'Content-Type': 'application/json',
@@ -39,16 +52,15 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // API endpoint voor compliance data (ISO 27001 niet in HTML/JS broncode)
+    // API endpoint voor compliance data (ISO 27001 alleen via API, niet in HTML/JS broncode)
     if (filePath === '/api/compliance-data') {
-        // Simuleer een kleine delay zoals een echte API
         setTimeout(() => {
             res.writeHead(200, { 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
             res.end(JSON.stringify({
-                certificates: ['ISO 27001', 'SOC 2', 'GDPR', 'PCI DSS'],
+                certificates: ['ISO 27001', 'SOC 2', 'PCI DSS'],
                 complianceScore: 95,
                 lastAudit: '2025-01-15',
                 securityFeatures: ['2FA', 'Encryption at Rest', 'Regular Pen Tests']
