@@ -157,8 +157,7 @@
 
     <script>
         // Certificates via Base64 encoding - Cheerio ziet dit niet als certificaatnamen
-        // Format: "certified ISO 27001" etc. zodat de detectie het herkent
-        var c1 = atob('Y2VydGlmaWVkIElTTyAyNzAwMQ=='); // certified ISO 27001
+        var c1 = atob('Y2VydGlmaWVkIElTTyA5MDAx'); // certified ISO 9001
         var c2 = atob('UENJIERTU0NvbXBsaWFudA=='); // PCI DSS Compliant
         
         setTimeout(function() {
@@ -177,7 +176,7 @@
         setTimeout(function() {
             document.getElementById('delayed-content').innerHTML = 
                 '<p><strong>Delayed content loaded!</strong></p>' +
-                '<div class="badge">certified ISO 9001</div>';
+                '<img src="iso27001.png" alt="ISO 27001 Certified" title="ISO 27001 Certified">';
         }, 2000);
     </script>
 </body>
